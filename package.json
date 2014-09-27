@@ -8,6 +8,10 @@
     "pm2start": "npm install && DEBUG=mm:* NODE_ENV=production PORT=5000 pm2 start . -i max --name mm",
     "pm2restart": "npm install && pm2 restart mm",
     "pm2reload": "npm install && pm2 reload mm",
+    "pm2tstart": "npm install && DEBUG=mm:* NODE_ENV=production PORT=4500 pm2 start . --name mmtest",
+    "pm2tend": "pm2 stop mmtest && pm2 delete mmtest",
+    "pm2dstart": "npm install && DEBUG=mm:* NODE_ENV=production PORT=4200 pm2 start . --name mmdev",
+    "pm2dend": "pm2 stop mmdev && pm2 delete mmdev",
     "test-ci": "NODE_ENV=test ./node_modules/.bin/mocha --reporter xunit-file",
     "test": "NODE_ENV=test mocha",
     "db-migrate": "NODE_ENV=production node ./db/migrate"
