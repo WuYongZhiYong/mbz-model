@@ -1,9 +1,11 @@
 {
   "name": "mianbz",
+  "private": true,
   "version": "0.0.1",
   "description": "source of mianbizhe.com",
   "main": "index.js",
   "scripts": {
+    "prepush": "npm test",
     "devsql": "cat db/create_database_and_dbuser.sql |sed -e 's/test/dev/g' |sed -e 's/TEST/DEV/g'",
     "pm2start": "npm install && DEBUG=mm:* NODE_ENV=production PORT=5000 pm2 start . -i max --name mm",
     "pm2restart": "npm install && pm2 restart mm",
@@ -13,6 +15,7 @@
     "pm2dstart": "npm install && DEBUG=mm:* NODE_ENV=production PORT=4200 pm2 start . --name mmdev",
     "pm2dend": "pm2 stop mmdev && pm2 delete mmdev",
     "test-ci": "NODE_ENV=test ./node_modules/.bin/mocha --reporter xunit-file",
+    "test-watch": "nodemon -w . -x 'npm test'",
     "test": "NODE_ENV=test mocha",
     "db-migrate": "NODE_ENV=production node ./db/migrate"
   },
@@ -25,6 +28,7 @@
     "errto": "^0.2.1",
     "express": "^4.8.2",
     "fn-arity": "0.0.1",
+    "husky": "^0.6.1",
     "knex": "^0.5.15",
     "lodash": "^2.4.1",
     "log4js": "^0.6.16",

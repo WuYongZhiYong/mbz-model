@@ -4,7 +4,6 @@ var supertest = require('supertest');
 
 var _ = require('lodash');
 
-var crypt = require('../lib/crypt');
 var app = require('../');
 
 describe('user model', function () {
@@ -17,7 +16,7 @@ describe('user model', function () {
     email: 'undozen@gmail.com'
   };
 
-  it('can save user and not save password in plain', function (done) {
+  it('can save user', function (done) {
     supertest(app)
       .post('/user')
       .type('json')
@@ -29,7 +28,6 @@ describe('user model', function () {
         assert.equal(res.body.username, userObj.username);
         assert.equal(res.body.nickname, userObj.nickname);
         assert.equal(res.body.email, userObj.email);
-        assert.notEqual(res.body.password, userObj.password);
         supertest(app)
           .post('/user')
           .type('json')
@@ -64,14 +62,30 @@ describe('user model', function () {
       });
   });
 
-  it('can get user by id and check password', function (done) {
+  it('can get user by id', function (done) {
     supertest(app)
       .get('/user/1')
       .expect(200, function (err, res) {
         assert.ok(!err);
-        assert(crypt.vhash(userObj.password, res.body.password));
         delete userObj.password;
         var user = res.body;
+        delete user.createdAt;
+        delete user.updatedAt;
+        assert.deepEqual(user, userObj);
+        done();
+      });
+  });
+
+  it('can check password', function (done) {
+    supertest(app)
+      .post('/user/check_password')
+      .type('form')
+      .send({id: 1, password: '123123123'})
+      .expect(200, function (err, res) {
+        assert.ok(!err);
+        assert.ok(res.body.success);
+        delete userObj.password;
+        var user = res.body.user;
         delete user.password;
         delete user.createdAt;
         delete user.updatedAt;

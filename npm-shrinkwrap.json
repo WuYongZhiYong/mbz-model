@@ -240,6 +240,11 @@
       "from": "fn-arity@0.0.1",
       "resolved": "https://registry.npmjs.org/fn-arity/-/fn-arity-0.0.1.tgz"
     },
+    "husky": {
+      "version": "0.6.1",
+      "from": "husky@",
+      "resolved": "https://registry.npmjs.org/husky/-/husky-0.6.1.tgz"
+    },
     "knex": {
       "version": "0.5.15",
       "from": "knex@^0.5.15",
